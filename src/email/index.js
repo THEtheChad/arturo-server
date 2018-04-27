@@ -1,3 +1,4 @@
+import fs from 'fs'
 import path from 'path'
 import Debug from 'debug'
 import nunjucks from 'nunjucks'
@@ -29,23 +30,30 @@ export default class Email {
         return
     }
 
-    this.debug(`${job.id} ${watchers.map(watcher => watcher.email)}`)
-    return
-
     const title = job.route
       .replace(/\/(.)/g, (m, c) => ' ' + c.toUpperCase())
       .slice(1)
 
     const config = {
       from: 'automation@exceleratedigital.com',
-      subject: `${title} ${job.status}`,
+      subject: `JOBQUEUE: ${title} ${job.status}`,
       bcc: watchers.map(watcher => watcher.email),
-      html: nunjucks.render('single.html', job)
+      html: nunjucks.render('single/template.html', job),
     }
 
-    console.log(config)
+    const images = path.join(templates, 'single/images')
+    const attachments = fs.readdirSync(images).map(filename => ({
+      filename,
+      path: path.join(images, filename),
+      cid: filename
+    }))
+
+    if (attachments && attachments.length) {
+      config.attachments = attachments
+    }
 
     if (!this.transport) return
+    this.debug(`sending mail to ${watchers.length} watchers...`)
 
     return new Promise((resolve, reject) => {
       this.transport.sendMail(config, (err, info) => err ? reject(err) : resolve(info))

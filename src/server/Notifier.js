@@ -9,7 +9,11 @@ export default class JobUpdater extends Actor {
 
     this.resume()
     this.sequelize = sequelize
-    this.email = new Email()
+    this.email = new Email({
+      sendmail: true,
+      newline: 'unix',
+      path: '/usr/sbin/sendmail'
+    })
     // Shutdown.addHandler((code, sig) => new Promise(resolve => {
     //   this.once('finish', () => {
     //     console.log(`${this.uuid} shutdown complete...`)
