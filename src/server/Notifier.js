@@ -23,6 +23,7 @@ export default class Notifier extends Actor {
   }
 
   async _perform(computation) {
+    const job = computation.payload
     try {
       const watchers = await this.sequelize.models.Watcher.findAll({
         where: {
