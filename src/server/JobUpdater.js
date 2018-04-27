@@ -7,6 +7,10 @@ export default class JobUpdater extends Actor {
     super(Object.assign({}, opts))
 
     this.sequelize = opts.sequelize
+    this.log = function (...args) {
+      args[0] = `arturo:${this.uuid} ${args[0]}`
+      console.log.apply(console, args)
+    }
 
     // @TODO:
     // for single updater
@@ -55,7 +59,7 @@ export default class JobUpdater extends Actor {
 
     try {
       await this.sequelize.models.Job.update(job, { where: { id: job.id } })
-      this.debug(`job #${job.id} ${job.status}`)
+      this.log(`job #${job.id} ${job.status}`)
       computation.push(job)
       computation.next()
     } catch (err) {
