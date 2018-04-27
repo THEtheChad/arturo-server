@@ -35,8 +35,6 @@ export default class WorkerManager extends Actor {
     const env = fs.readJsonSync(path.join(process.cwd(), '__environments__', `${global.server.port}`, `${sanitize(worker.route)}.json`))
     const stdio = ['ignore', 'ignore', 'ignore', 'ipc']
 
-    console.log(env)
-
     WorkerManager.QUEUE.write({
       path: dir,
       opts: { env, stdio },
