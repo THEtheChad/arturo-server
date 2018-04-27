@@ -17,23 +17,15 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "generate-readme": "^0.3.1",
-    "mocha": "^3.4.2",
-    "nconf": "^0.10.0"
+    "mocha": "^3.4.2"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
-    "comedy": "^1.3.0",
     "debug": "^3.1.0",
-    "fastpriorityqueue": "^0.3.1",
-    "highland": "^2.13.0",
     "moment": "^2.22.1",
     "nodemailer": "^4.6.2",
     "nssocket": "^0.6.0",
-    "nunjucks": "^3.1.2",
-    "pm2": "^2.10.2",
-    "short-uuid": "^3.0.0",
-    "toobusy-js": "^0.5.1",
-    "uuid": "^3.2.1"
+    "nunjucks": "^3.1.2"
   },
   "optionalDependencies": {
     "mysql2": "^1.5.2",
