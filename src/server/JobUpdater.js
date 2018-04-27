@@ -56,6 +56,7 @@ export default class JobUpdater extends Actor {
     try {
       await this.sequelize.models.Job.update(job, { where: { id: job.id } })
       this.debug(`job #${job.id} ${job.status}`)
+      computation.push(job)
       computation.next()
     } catch (err) {
       console.error(`${this.uuid}: DATABASE ERROR`)

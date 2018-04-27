@@ -3,7 +3,7 @@ import Actor from '../utilities/Actor'
 import Shutdown from '../server/Shutdown'
 import Email from '../email'
 
-export default class JobUpdater extends Actor {
+export default class Notifier extends Actor {
   constructor(sequelize, opts = {}) {
     super(opts)
 
@@ -22,7 +22,7 @@ export default class JobUpdater extends Actor {
     // }), (remover) => this.once('finish', remover))
   }
 
-  async _compute(job) {
+  async _perform(computation) {
     try {
       const watchers = await this.sequelize.models.Watcher.findAll({
         where: {
@@ -31,10 +31,10 @@ export default class JobUpdater extends Actor {
         }
       })
       this.email.send(job, watchers.map(watcher => watcher.toJSON()))
+      computation.next()
     }
     catch (err) {
-      console.error(`${this.uuid}: DATABASE ERROR`)
-      console.error(err)
+      computation.error(err)
     }
   }
 }
