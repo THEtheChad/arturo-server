@@ -1,0 +1,235 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0;">
+ 	<meta name="format-detection" content="telephone=no"/>
+
+	<!-- Responsive Mobile-First Email Template by Konstantin Savchenko, 2015.
+	https://github.com/konsav/email-templates/  -->
+
+	<style>
+/* Reset styles */ 
+body { margin: 0; padding: 0; min-width: 100%; width: 100% !important; height: 100% !important;}
+body, table, td, div, p, a { -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%; }
+table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-spacing: 0; }
+img { border: 0; line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+#outlook a { padding: 0; }
+.ReadMsgBody { width: 100%; } .ExternalClass { width: 100%; }
+.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
+
+/* Rounded corners for advanced mail clients only */ 
+@media all and (min-width: 560px) {
+	.container { border-radius: 8px; -webkit-border-radius: 8px; -moz-border-radius: 8px; -khtml-border-radius: 8px;}
+}
+
+/* Set color for auto links (addresses, dates, etc.) */ 
+a, a:hover {
+	color: #127DB3;
+}
+.footer a, .footer a:hover {
+	color: #999999;
+}
+
+ 	</style>
+
+	<!-- MESSAGE SUBJECT -->
+	<title>{{ route | upper }} {{ status }}</title>
+
+</head>
+
+<!-- BODY -->
+<!-- Set message background color (twice) and text color (twice) -->
+<body topmargin="0" rightmargin="0" bottommargin="0" leftmargin="0" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
+	background-color: #F0F0F0;
+	color: #000000;"
+	bgcolor="#F0F0F0"
+	text="#000000">
+
+<!-- SECTION / BACKGROUND -->
+<!-- Set message background color one again -->
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%;" class="background"><tr><td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;"
+	bgcolor="#F0F0F0">
+
+<!-- WRAPPER / CONTEINER -->
+<!-- Set conteiner background color -->
+<table border="0" cellpadding="0" cellspacing="0" align="center"
+	bgcolor="#FFFFFF"
+	width="560" style="border-collapse: collapse; border-spacing: 0; padding: 0; width: inherit;
+	max-width: 560px; margin-top: 20px;" class="container">
+
+	<!-- HEADER -->
+	<!-- Set text color and font family ("sans-serif" or "Georgia, serif") -->
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 24px; font-weight: bold; line-height: 130%;
+			padding-top: 25px;
+			color: #000000;
+			font-family: sans-serif;" class="header">
+				{{ route | upper }}
+		</td>
+	</tr>
+	
+	<!-- SUBHEADER -->
+	<!-- Set text color and font family ("sans-serif" or "Georgia, serif") -->
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-bottom: 3px; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 18px; font-weight: 300; line-height: 150%;
+			padding-top: 5px;
+			color: #000000;
+			font-family: sans-serif;" class="subheader">
+				{{ status }}
+		</td>
+	</tr>
+
+	<!-- LINE -->
+	<!-- Set line color -->
+	<tr>	
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
+			padding-top: 25px;" class="line"><hr
+			color="#E0E0E0" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
+		</td>
+	</tr>
+
+	<!-- LIST -->
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%;" class="list-item"><table align="center" border="0" cellspacing="0" cellpadding="0" style="width: inherit; margin: 0; padding: 0; border-collapse: collapse; border-spacing: 0;">
+			
+      <table>
+
+        <tr>
+
+          <!-- LIST ITEM IMAGE -->
+          <!-- Image text color should be opposite to background color. Set your url, image src, alt and title. Alt text should fit the image size. Real image size should be x2 -->
+          <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0;
+            padding-top: 25px;
+            padding-right: 20px;"><img
+          border="0" vspace="0" hspace="0" style="padding: 0; margin: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;
+            color: #000000;"
+            src="data:image/png;base64,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"
+            alt="Timing" title="Timing"
+            width="50" height="50"></td>
+
+          <!-- LIST ITEM TEXT -->
+          <!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
+          <td align="left" valign="top" style="font-size: 17px; font-weight: 400; line-height: 160%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
+            padding-top: 25px;
+            color: #000000;
+            font-family: sans-serif;" class="paragraph">
+            <div style="padding-bottom: 10px; line-height: 140%"><b>Started</b><br/>{{ next }}</div>
+            <div style="padding-bottom: 10px; line-height: 140%"><b>Finished</b><br/>{{ updatedAt }}</div>
+            <div style="padding-bottom: 10px; line-height: 140%"><b>Duration</b><br/>--</div>
+          </td>
+
+        </tr>
+
+        <!-- LIST ITEM -->
+        <tr>
+
+          <!-- LIST ITEM IMAGE -->
+          <!-- Image text color should be opposite to background color. Set your url, image src, alt and title. Alt text should fit the image size. Real image size should be x2 -->
+          <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0;
+            padding-top: 35px;
+            padding-right: 20px;"><img
+          border="0" vspace="0" hspace="0" style="padding: 0; margin: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;
+            color: #000000;"
+            src="data:image/png;base64,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"
+            alt="Details" title="Details"
+            width="50" height="50"></td>
+
+          <!-- LIST ITEM TEXT -->
+          <!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
+          <td align="left" valign="top" style="font-size: 17px; font-weight: 400; line-height: 160%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
+            padding-top: 35px;
+            color: #000000;
+            font-family: sans-serif;" class="paragraph">
+              <div style="padding-bottom: 10px; line-height: 140%"><b>Attempts</b><br/>{{ attempts }}</div>
+          </td>
+
+        </tr>
+
+        <!-- LIST ITEM -->
+        <tr>
+
+          <!-- LIST ITEM IMAGE -->
+          <!-- Image text color should be opposite to background color. Set your url, image src, alt and title. Alt text should fit the image size. Real image size should be x2 -->
+          <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0;
+            padding-top: 35px;
+            padding-right: 20px;"><img
+          border="0" vspace="0" hspace="0" style="padding: 0; margin: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;
+            color: #000000;"
+            src="data:image/png;base64,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"
+            alt="System" title="System"
+            width="50" height="50"></td>
+
+          <!-- LIST ITEM TEXT -->
+          <!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
+          <td align="left" valign="top" style="font-size: 17px; font-weight: 400; line-height: 160%; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
+            padding-top: 35px;
+            color: #000000;
+            font-family: sans-serif;" class="paragraph">
+              <div style="padding-bottom: 10px; line-height: 140%"><b>Origin</b><br/>{{ originClient }}</div>
+              <div style="padding-bottom: 10px; line-height: 140%"><b>Client</b><br/>{{ lastClient }}</div>
+          </td>
+
+        </tr>
+
+		  </table>
+    </td>
+	</tr>
+
+	<!-- LINE -->
+	<!-- Set line color -->
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
+			padding-top: 15px;" class="line"><hr
+			color="#E0E0E0" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
+		</td>
+	</tr>
+
+	<!-- PARAGRAPH -->
+	<!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
+			padding-top: 20px;
+			padding-bottom: 25px;
+			color: #000000;
+			font-family: sans-serif;" class="paragraph">
+				Have a question? <a href="mailto:momentum@mcclatchy.com" style="color: #127DB3; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 160%;">momentum@mcclatchy.com</a>
+		</td>
+	</tr>
+
+<!-- End of WRAPPER -->
+</table>
+
+<!-- WRAPPER -->
+<!-- Set wrapper width (twice) -->
+<table border="0" cellpadding="0" cellspacing="0" align="center"
+	width="560" style="border-collapse: collapse; border-spacing: 0; padding: 0; width: inherit;
+	max-width: 560px;" class="wrapper">
+
+	<!-- FOOTER -->
+	<!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 13px; font-weight: 400; line-height: 150%;
+			padding-top: 20px;
+			padding-bottom: 20px;
+			color: #999999;
+			font-family: sans-serif;" class="footer">
+
+				This email was sent to you because you're subscribed to Momentum job updates.<br/>
+        If this is incorrect, please contact <a href="mailto:momentum@mcclatchy.com" target="_blank" style="text-decoration: underline; color: #999999; font-family: sans-serif; font-size: 13px; font-weight: 400; line-height: 150%;">momentum@mcclatchy.com</a> and<br/> make them aware of the error.
+
+				<!-- ANALYTICS -->
+				<!-- http://www.google-analytics.com/collect?v=1&tid={{UA-Tracking-ID}}&cid={{Client-ID}}&t=event&ec=email&ea=open&cs={{Campaign-Source}}&cm=email&cn={{Campaign-Name}} -->
+				<img width="1" height="1" border="0" vspace="0" hspace="0" style="margin: 0; padding: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;"
+				src="https://raw.githubusercontent.com/konsav/email-templates/master/images/tracker.png" />
+
+		</td>
+	</tr>
+
+<!-- End of WRAPPER -->
+</table>
+
+<!-- End of SECTION / BACKGROUND -->
+</td></tr></table>
+
+</body>
+</html>
