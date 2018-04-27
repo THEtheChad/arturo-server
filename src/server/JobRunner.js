@@ -5,6 +5,11 @@ export default class JobRunner extends Actor {
   constructor(opts) {
     super(Object.assign({}, opts))
 
+    this.log = function (...args) {
+      args[0] = `arturo:${this.uuid} ${args[0]}`
+      console.log.apply(console, args)
+    }
+
     this.subprocess = opts.subprocess
     this.sequelize = opts.sequelize
 
@@ -24,7 +29,7 @@ export default class JobRunner extends Actor {
     const { subprocess } = this
 
     if (this.cancelled) {
-      this.debug(`${subprocess.pid} cancelling job #${job.id}...`)
+      this.log(`${subprocess.pid} cancelling job #${job.id}...`)
       job.status = 'cancelled'
       computaton.push(job)
       computaton.next()
@@ -32,7 +37,7 @@ export default class JobRunner extends Actor {
     }
 
     if (!subprocess.connected) {
-      this.debug(`${subprocess.pid} worker unreachable: rescheduling job #${job.id}...`)
+      this.log(`${subprocess.pid} worker unreachable: rescheduling job #${job.id}...`)
       const err = new Error('Worker Unreachable')
 
       job.status = 'failed'
@@ -44,7 +49,7 @@ export default class JobRunner extends Actor {
       return
     }
 
-    this.debug(`${subprocess.pid} processing job #${job.id}...`)
+    this.log(`${subprocess.pid} processing job #${job.id}...`)
 
     job.status = 'processing'
     job.attempts = job.attempts + 1
@@ -53,7 +58,7 @@ export default class JobRunner extends Actor {
 
     const handleDisconnect = () => {
       clearListeners()
-      this.debug(`${subprocess.pid} worker interrupted: unable to finish job #${job.id}...`)
+      this.log(`${subprocess.pid} worker interrupted: unable to finish job #${job.id}...`)
       const err = this.cancelled ? new Error('Worker Interrupted') : new Error('Worker Failure')
 
       job.status = 'failed'
