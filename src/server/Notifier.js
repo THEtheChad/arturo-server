@@ -34,7 +34,7 @@ export default class Notifier extends Actor {
       computation.next()
     }
     catch (err) {
-      computation.error(err)
+      computation.failed(err)
     }
   }
 }
