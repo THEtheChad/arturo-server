@@ -151,7 +151,7 @@ export default class Server {
 
   initRegistrar() {
     const sequelize = this.sequelize
-    const registrar = new Registrar(this.port)
+    const registrar = new Registrar({ port: global.server.port })
 
     registrar.queue.add
       .pipe(new CreateWorker({ sequelize }))

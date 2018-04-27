@@ -1,3 +1,6 @@
+import path from 'path'
+import fs from 'fs-extra'
+import sanitize from 'sanitize-filename'
 import nssocket from 'nssocket'
 import Debug from 'debug'
 import Queue from '../utilities/Queue'
@@ -6,7 +9,9 @@ import Shutdown from '../server/Shutdown'
 import uuid from '../utilities/uuid'
 
 export default class Registrar {
-  constructor(port = 61681) {
+  constructor(opts) {
+    this.opts = Object.assign({ port: 61681 }, opts)
+
     this.uuid = `${this.constructor.name}-${process.pid}-${uuid()}`
     this.debug = Debug(`arturo:${this.uuid}`)
 
@@ -15,10 +20,15 @@ export default class Registrar {
       remove: new Queue
     }
 
+    this.environment = path.join(process.cwd(), '__environments__', `${this.opts.port}`)
+    fs.ensureDirSync(this.environment)
+
     this.listener = nssocket.createServer(socket => {
       const method = (event, queue) => {
         const parts = event.split('.')
-        socket.data(parts, (worker) => {
+        socket.data(parts, ({ worker, environment }) => {
+          // @TODO: handle multiple workers on same server
+          fs.writeJsonSync(path.join(this.environment, `${sanitize(worker.route)}.json`), environment)
           this.debug(`${event} ${worker.route}`)
           queue.write(worker)
           socket.send([...parts, 'success'], worker)
@@ -37,9 +47,9 @@ export default class Registrar {
         console.error(`WARNING: Registrar encountered an error`)
         console.error(`         restarting in ${restartDelay}ms`)
         console.error(err)
-        setTimeout(() => Registrar(server, port), restartDelay)
+        setTimeout(() => Registrar(server, this.opts.port), restartDelay)
       })
-      .listen(port)
+      .listen(this.opts.port)
 
     Shutdown.addHandler((code, sig) => {
       this.queue.add.end()

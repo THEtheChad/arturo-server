@@ -1,3 +1,6 @@
+import path from 'path'
+import fs from 'fs-extra'
+import sanitize from 'sanitize-filename'
 import Debug from 'debug'
 import Promise from 'bluebird'
 import Actor from '../utilities/Actor'
@@ -27,11 +30,16 @@ export default class WorkerManager extends Actor {
 
     const worker = computation.payload
     const { sequelize } = this
-    const { path } = worker
+    const { path: dir, route } = worker
+
+    const env = fs.readJsonSync(path.join(process.cwd(), '__environments__', `${global.server.port}`, `${sanitize(worker.route)}.json`))
+    const stdio = ['ignore', 'ignore', 'ignore', 'ipc']
+
+    console.log(env)
 
     WorkerManager.QUEUE.write({
-      path,
-      opts: { stdio: ['ignore', 'ignore', 'ignore', 'ipc'] },
+      path: dir,
+      opts: { env, stdio },
       onSpawn: (subprocess) => {
         this.debug(`WORKER ${subprocess.pid} ${worker.route}: initializing`)
 
