@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import Debug from 'debug'
+import moment from 'moment'
 import nunjucks from 'nunjucks'
 import { debounce } from 'lodash'
 import nodemailer from 'nodemailer'
@@ -22,13 +23,22 @@ export default class Email {
   send(job, watchers) {
     if (!watchers.length) return
 
+    job.startDate = moment(job.startDate)
+    job.finishDate = moment(job.finishDate)
+
     switch (job.status) {
       case 'completed':
+        job.duration = moment.duration(job.finishDate.diff(job.startDate)).humanize()
+        break;
       case 'failed':
+        job.duration = moment.duration(moment(job.updatedAt).diff(job.initialDate)).humanize()
         break
       default:
         return
     }
+
+    job.startDate = job.startDate.calendar()
+    job.finishDate = job.finishDate.calendar()
 
     const title = job.route
       .replace(/\/(.)/g, (m, c) => ' ' + c.toUpperCase())
