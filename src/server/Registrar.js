@@ -17,15 +17,16 @@ export default class Registrar {
 
     this.listener = nssocket.createServer(socket => {
       const method = (event, queue) => {
-        socket.data(event.split('.'), (worker) => {
+        const parts = event.split('.')
+        socket.data(parts, (worker) => {
           this.debug(`${event} ${worker.route}`)
           queue.write(worker)
-          socket.send(['recieved'])
+          socket.send([...parts, 'success'], worker)
         })
       }
 
-      method('worker.add', this.queue.add)
-      method('worker.remove', this.queue.remove)
+      method('worker.create', this.queue.add)
+      method('worker.destroy', this.queue.remove)
 
       socket.send(['connected'])
     })
