@@ -37,7 +37,7 @@ export default class WorkerManager extends Actor {
 
     WorkerManager.QUEUE.write({
       path: dir,
-      opts: { env, stdio },
+      opts: { env },
       onSpawn: (subprocess) => {
         this.debug(`WORKER ${subprocess.pid} ${worker.route}: initializing`)
 
