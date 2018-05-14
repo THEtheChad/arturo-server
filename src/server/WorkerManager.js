@@ -22,6 +22,12 @@ export default class WorkerManager extends Actor {
     this.sequelize = opts.sequelize
     this.notifier = opts.notifier
 
+    this.dir = {
+      logs: path.join(process.cwd(), '__logs__'),
+      env: path.join(process.cwd(), '__environments__', `${global.server.port}`)
+    }
+    fs.ensureDirSync(this.dir.logs)
+
     Shutdown.addHandler((code, sig, done) => this.destroy(null, done))
   }
 
@@ -32,7 +38,7 @@ export default class WorkerManager extends Actor {
     const { sequelize } = this
     const { path: dir, route } = worker
 
-    const env = fs.readJsonSync(path.join(process.cwd(), '__environments__', `${global.server.port}`, `${sanitize(worker.route)}.json`))
+    const env = fs.readJsonSync(path.join(this.dir.env, `${sanitize(worker.route)}.json`))
     const stdio = ['ignore', 'ignore', 'ignore', 'ipc']
 
     WorkerManager.QUEUE.write({
@@ -40,6 +46,28 @@ export default class WorkerManager extends Actor {
       opts: { env },
       onSpawn: (subprocess) => {
         this.debug(`WORKER ${subprocess.pid} ${worker.route}: initializing`)
+
+        subprocess.on('message', async (msg) => {
+          if (msg.type !== 'queue') return
+          const nonce = msg.meta.nonce
+
+          try {
+            await this.sequelize.models.Job.create(msg.payload)
+            subprocess.send({
+              type: 'queue',
+              payload: 'success',
+              meta: { nonce }
+            })
+          } catch (err) {
+            const errId = this.logError(err)
+            subprocess.send({
+              type: 'queue',
+              payload: 'error',
+              err,
+              meta: { nonce, errId, errMsg: err.message }
+            })
+          }
+        })
 
         new QueryWorkerJobs({
           sequelize,

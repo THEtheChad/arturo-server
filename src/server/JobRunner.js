@@ -68,10 +68,10 @@ export default class JobRunner extends Actor {
       computaton.next()
     }
 
-    const handleMessage = (result) => {
-      if (result.id !== job.id) return
+    const handleMessage = (msg) => {
+      if (msg.type !== 'job' || msg.payload.id !== job.id) return
       clearListeners()
-      computaton.push(result)
+      computaton.push(msg.payload)
       computaton.next()
     }
 
