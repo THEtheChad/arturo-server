@@ -24,6 +24,8 @@ import uuid from '../utilities/uuid'
 // process.on('unhandledRejection', err => console.error('unhandled', err))
 
 export default class Server {
+  static Database = database
+
   constructor(config) {
     this.sequelize = database(config)
 
