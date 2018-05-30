@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import Sequelize from 'sequelize'
 
-export default function (_config) {
+export default function (_config, opts = {}) {
   const config = Object.assign({
     logging: false,
     operatorsAliases: false,
@@ -23,7 +23,7 @@ export default function (_config) {
     models[name].associate && models[name].associate(models)
   }
 
-  sequelize.initialized = sequelize.sync()
+  sequelize.initialized = sequelize.sync(opts)
   sequelize.Sequelize = Sequelize
 
   return sequelize
