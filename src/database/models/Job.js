@@ -78,7 +78,7 @@ module.exports = function (sequelize, DataTypes) {
     interval: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 20,
+      defaultValue: 40,
       comment: 'in milliseconds',
     },
     lastServer: DataTypes.INTEGER,
