@@ -1,6 +1,8 @@
 import os from 'os'
 import Debug from 'debug'
 import moment from 'moment'
+import Koa from 'koa'
+import Router from 'koa'
 import database from '../database'
 
 // Modules
@@ -22,6 +24,9 @@ import CRUD from '../utilities/CRUD'
 import uuid from '../utilities/uuid'
 
 // process.on('unhandledRejection', err => console.error('unhandled', err))
+const PORT = 1728
+const app = new Koa()
+const router = new Router()
 
 export default class Server {
   static Database = database
@@ -52,9 +57,9 @@ export default class Server {
 
       global.server = this.instance = instance
 
-      this.initRegistrar()
-      this.initJobRunner()
-      this.initJobScheduler()
+      this.initRegistrar(router)
+      this.initJobRunner(router)
+      this.initJobScheduler(router)
 
       this.trigger('scheduleJobs', moment.duration(10, 'seconds'))
       this.trigger('jobRunner', moment.duration(10, 'seconds'))
@@ -65,6 +70,12 @@ export default class Server {
 
     this.enabled = true
     Shutdown.addHandler(() => this.enabled = false)
+
+    app
+      .use(router.routes())
+      .use(router.allowedMethods())
+
+    app.listen(PORT)
   }
 
   async trigger(method, timing) {
@@ -73,16 +84,20 @@ export default class Server {
     setTimeout(() => this.trigger(method, timing), timing)
   }
 
-  initJobRunner() {
+  initJobRunner(router) {
     const sequelize = this.sequelize
     const notifier = new Notifier(sequelize)
-    this.scheduledWorkers = new QueryScheduledWorkers(sequelize)
+    const manager = new WorkerManager({
+      sequelize,
+      notifier,
+    })
 
-    this.scheduledWorkers
-      .pipe(new WorkerManager({
-        sequelize,
-        notifier,
-      }))
+    router.get('/stats', (ctx, next) => {
+      ctx.body = JSON.stringify(manager._stats(), null, 2)
+    })
+
+    this.scheduledWorkers = new QueryScheduledWorkers(sequelize)
+    this.scheduledWorkers.pipe(manager)
   }
 
   initJobScheduler(trigger) {

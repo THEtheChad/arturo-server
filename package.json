@@ -23,6 +23,8 @@
     "bluebird": "^3.5.1",
     "debug": "^3.1.0",
     "fs-extra": "^5.0.0",
+    "koa": "^2.5.3",
+    "koa-router": "^7.4.0",
     "moment": "^2.22.1",
     "nodemailer": "^4.6.2",
     "nssocket": "^0.6.0",

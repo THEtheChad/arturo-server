@@ -12,7 +12,7 @@ export default class Fork extends stream.Writable {
     })
 
     this.max = highWaterMark
-    this.active = 0
+    this.active = []
   }
 
   async _write({
@@ -31,7 +31,7 @@ export default class Fork extends stream.Writable {
     // if we've reached max concurrency
     // wait til there's space to
     // spin up this worker
-    if (this.active >= this.max) {
+    if (this.active.length >= this.max) {
       const defer = () => this._write(args, enc, next)
       this.once('child:exit', defer)
 
@@ -41,8 +41,8 @@ export default class Fork extends stream.Writable {
       return
     }
 
-    this.active++
     const child = fork(path, args || [], opts || {})
+    this.active.push(child)
 
     // kill this worker if
     // we're destroying the stream
@@ -60,7 +60,8 @@ export default class Fork extends stream.Writable {
       })
       .once('exit', (code, sig) => {
         this.removeListener('destroy', kill)
-        this.active--
+        const idx = this.active.indexOf(child)
+        this.active.splice(idx, 1)
 
         if (onExit) onExit.call(child, code, sig, child)
         this.emit('child:exit', child, code, sig)
@@ -72,7 +73,15 @@ export default class Fork extends stream.Writable {
   }
 
   isEmpty() {
-    return this.active <= 0
+    return this.active.length <= 0
+  }
+
+  _stats() {
+    return {
+      active: this.active.length,
+      max: this.max,
+      pids: this.active.map(child => child.pid),
+    }
   }
 
   _destroy(err, done) {

@@ -31,6 +31,10 @@ export default class WorkerManager extends Actor {
     Shutdown.addHandler((code, sig, done) => this.destroy(null, done))
   }
 
+  _stats() {
+    return WorkerManager.QUEUE._stats()
+  }
+
   _perform(computation) {
     if (this.destroyed) return
 
