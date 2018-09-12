@@ -2,7 +2,7 @@ import os from 'os'
 import Debug from 'debug'
 import moment from 'moment'
 import Koa from 'koa'
-import Router from 'koa'
+import Router from 'koa-router'
 import database from '../database'
 
 // Modules
@@ -76,6 +76,7 @@ export default class Server {
       .use(router.allowedMethods())
 
     app.listen(PORT)
+    console.log('monitoring available on port ' + PORT + '...')
   }
 
   async trigger(method, timing) {
