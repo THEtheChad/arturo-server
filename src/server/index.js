@@ -1,8 +1,6 @@
 import os from 'os'
 import Debug from 'debug'
 import moment from 'moment'
-import Koa from 'koa'
-import Router from 'koa-router'
 import database from '../database'
 
 // Modules
@@ -35,7 +33,7 @@ export default class Server {
 
     this.uuid = `${this.constructor.name}-${process.pid}-${uuid()}`
     this.debug = Debug(`arturo:${this.uuid}`)
-    this.monitor = new Monitor()
+    const monitor = this.monitor = new Monitor()
 
     const { Op } = this.sequelize
     this.initialized = this.sequelize.initialized.then(async () => {
@@ -57,9 +55,9 @@ export default class Server {
 
       global.server = this.instance = instance
 
-      this.initRegistrar(router)
-      this.initJobRunner(router)
-      this.initJobScheduler(router)
+      this.initRegistrar(monitor)
+      this.initJobRunner(monitor)
+      this.initJobScheduler(monitor)
 
       this.trigger('scheduleJobs', moment.duration(10, 'seconds'))
       this.trigger('jobRunner', moment.duration(10, 'seconds'))
@@ -67,7 +65,7 @@ export default class Server {
       this.trigger('markInactiveServers', moment.duration(5, 'minutes'))
       this.trigger('keepAlive', moment.duration(5, 'minutes'))
 
-      this.monitor.listen(PORT)
+      monitor.listen(PORT)
     })
 
     this.enabled = true
@@ -80,7 +78,7 @@ export default class Server {
     setTimeout(() => this.trigger(method, timing), timing)
   }
 
-  initJobRunner(router) {
+  initJobRunner(monitor) {
     const sequelize = this.sequelize
     const notifier = new Notifier(sequelize)
     const manager = new WorkerManager({
@@ -88,7 +86,7 @@ export default class Server {
       notifier,
     })
 
-    router.get('/stats', (ctx, next) => {
+    monitor.router.get('/stats', (ctx, next) => {
       ctx.body = JSON.stringify(manager._stats(), null, 2)
     })
 
