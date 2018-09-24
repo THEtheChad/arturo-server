@@ -4,8 +4,11 @@ import uuid from '../utilities/uuid'
 import Shutdown from '../server/Shutdown'
 
 export default class QueryScheduledWorkers extends stream.Readable {
-  constructor(sequelize, trigger) {
-    super({ objectMode: true })
+  constructor(sequelize) {
+    super({
+      highWaterMark: 0,
+      objectMode: true
+    })
 
     this.sequelize = sequelize
     this.uuid = `${this.constructor.name}-${process.pid}-${uuid()}`

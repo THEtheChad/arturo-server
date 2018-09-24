@@ -5,7 +5,10 @@ import Shutdown from '../server/Shutdown'
 
 export default class QueryBackoffJobs extends stream.Readable {
   constructor(sequelize) {
-    super({ objectMode: true })
+    super({
+      highWaterMark: 0,
+      objectMode: true
+    })
 
     this.uuid = `${this.constructor.name}-${process.pid}-${uuid()}`
     this.debug = Debug(`arturo:${this.uuid}`)

@@ -13,6 +13,7 @@ import DestroyWorker from './DestroyWorker'
 import Notifier from './Notifier'
 import ScheduleRetries from './ScheduleRetries'
 import Shutdown from './Shutdown'
+import Monitor from './Monitor'
 
 // Queries
 import QueryScheduledWorkers from '../queries/QueryScheduledWorkers'
@@ -25,8 +26,6 @@ import uuid from '../utilities/uuid'
 
 // process.on('unhandledRejection', err => console.error('unhandled', err))
 const PORT = 1728
-const app = new Koa()
-const router = new Router()
 
 export default class Server {
   static Database = database
@@ -36,6 +35,7 @@ export default class Server {
 
     this.uuid = `${this.constructor.name}-${process.pid}-${uuid()}`
     this.debug = Debug(`arturo:${this.uuid}`)
+    this.monitor = new Monitor()
 
     const { Op } = this.sequelize
     this.initialized = this.sequelize.initialized.then(async () => {
@@ -66,17 +66,12 @@ export default class Server {
       this.trigger('markActiveServers', moment.duration(5, 'minutes'))
       this.trigger('markInactiveServers', moment.duration(5, 'minutes'))
       this.trigger('keepAlive', moment.duration(5, 'minutes'))
+
+      this.monitor.listen(PORT)
     })
 
     this.enabled = true
     Shutdown.addHandler(() => this.enabled = false)
-
-    app
-      .use(router.routes())
-      .use(router.allowedMethods())
-
-    app.listen(PORT)
-    console.log('monitoring available on port ' + PORT + '...')
   }
 
   async trigger(method, timing) {
