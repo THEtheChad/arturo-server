@@ -7,7 +7,7 @@ export default class Monitor {
     this.router = new Router()
   }
 
-  listener(port) {
+  listen(port) {
     this.app
       .use(this.router.routes())
       .use(this.router.allowedMethods())
