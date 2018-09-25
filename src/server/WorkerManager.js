@@ -33,7 +33,7 @@ export default class WorkerManager extends Actor {
 
   _stats() {
     return {
-      workers: this.readableLength,
+      workers: this._readableState.length,
       processes: WorkerManager.QUEUE._stats()
     }
   }

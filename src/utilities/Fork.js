@@ -78,7 +78,7 @@ export default class Fork extends stream.Writable {
 
   _stats() {
     return {
-      queue: this.writableLength,
+      queue: this._writableState.length,
       active: this.active.length,
       max: this.max,
       pids: this.active.map(child => child.pid),
