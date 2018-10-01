@@ -15,15 +15,17 @@ export default class Fork extends stream.Writable {
     this.active = []
   }
 
-  async _write({
-    path,
-    args,
-    opts,
-    onSpawn,
-    onExit,
-    onDisconnect,
-    onError
-  }, enc, next) {
+  async _write(input, enc, next) {
+    const {
+      path,
+      args,
+      opts,
+      onSpawn,
+      onExit,
+      onDisconnect,
+      onError
+    } = input
+
     // don't spin up queued workers
     // if we're destroying this stream
     if (this.destroyed) return
@@ -32,7 +34,7 @@ export default class Fork extends stream.Writable {
     // wait til there's space to
     // spin up this worker
     if (this.active.length >= this.max) {
-      const defer = () => this._write(args, enc, next)
+      const defer = () => this._write(input, enc, next)
       this.once('child:exit', defer)
 
       // deque this deferred worker
