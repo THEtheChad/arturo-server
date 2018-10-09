@@ -11,6 +11,10 @@ export default class ScheduleRetries extends Actor {
       {
         name: 'exponential',
         schedule: (job) => job.scheduledDate.getTime() + Math.pow(job.interval, job.attempts)
+      },
+      {
+        name: 'linear',
+        schedule: (job) => job.scheduledDate.getTime() + job.interval
       }
     ]
   }
