@@ -31,8 +31,5 @@
 		"sanitize-filename": "^1.6.1",
 		"sequelize": "^6.3.5"
 	},
-	"optionalDependencies": {
-		"mysql2": "^1.5.2"
-	},
 	"peerDependencies": {}
 }

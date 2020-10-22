@@ -5,6 +5,9 @@ import Sequelize from 'sequelize';
 export default function (_config, opts = {}) {
 	const config = Object.assign(
 		{
+			dialectOptions: {
+				validateBulkLoadParameters: false
+			},
 			logging: false,
 			operatorsAliases: false,
 			pool: {
