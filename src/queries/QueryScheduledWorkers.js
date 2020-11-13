@@ -37,7 +37,7 @@ export default class QueryScheduledWorkers extends stream.Readable {
           FROM Jobs
           WHERE
               Jobs.status IN ('scheduled', 'retry') AND
-              Jobs.scheduledDate <= Convert(datetime, '${new Date()}' )
+              Jobs.scheduledDate <= Convert(datetime, '${new Date().toISOString()}' )
             GROUP BY Jobs.route
         )
     `
