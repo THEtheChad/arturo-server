@@ -20,14 +20,13 @@ export default class QueryScheduledWorkers extends stream.Readable {
 		);
 	}
 
-	fetch() {
+	async fetch() {
 		if (this.destroyed) return;
 		if (this.readableLength > 0) return;
 
 		// @TODO: limit to one job route
-		this.sequelize
-			.query(
-				`
+		const [workers] = await this.sequelize.query(
+			`
       SELECT *
       FROM Workers
       WHERE
@@ -42,13 +41,12 @@ export default class QueryScheduledWorkers extends stream.Readable {
             GROUP BY Jobs.route
         )j
     `
-			)
-			.spread((workers, metadata) => {
-				this.debug(`found ${workers.length} worker(s) with scheduled jobs...`);
-				workers.forEach((worker) => {
-					if (!this.destroyed) this.push(worker);
-				});
-			});
+		);
+
+		this.debug(`found ${workers.length} worker(s) with scheduled jobs...`);
+		workers.forEach((worker) => {
+			if (!this.destroyed) this.push(worker);
+		});
 	}
 
 	_read() {}
