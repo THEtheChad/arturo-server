@@ -2,6 +2,7 @@ import Debug from 'debug';
 import stream from 'stream';
 import uuid from '../utilities/uuid';
 import Shutdown from '../server/Shutdown';
+import { Op } from 'sequelize';
 
 export default class QueryWorkerJobs extends stream.Readable {
 	constructor(opts) {
@@ -14,8 +15,6 @@ export default class QueryWorkerJobs extends stream.Readable {
 				opts
 			)
 		);
-
-		const { Op } = opts.sequelize;
 
 		this.uuid = `${this.constructor.name}-${process.pid}-${uuid()}`;
 		this.debug = Debug(`arturo:${this.uuid}`);
