@@ -32,5 +32,7 @@
 		"sanitize-filename": "^1.6.1",
 		"sequelize": "^6.3.5"
 	},
-	"peerDependencies": {}
+	"peerDependencies": {
+		"tedious": "^2.3.1"
+	}
 }
