@@ -39,7 +39,7 @@ export default class QueryScheduledWorkers extends stream.Readable {
               Jobs.status IN ('scheduled', 'retry') AND
               Jobs.scheduledDate <= Convert(datetime, '${new Date()}' )
             GROUP BY Jobs.route
-        )j
+        )
     `
 		);
 
