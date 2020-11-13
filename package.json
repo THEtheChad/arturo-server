@@ -1,6 +1,6 @@
 {
 	"name": "arturo-server",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "A database agnostic distributed job queue (server, client, and worker).",
 	"main": "lib/server/index.js",
 	"scripts": {
