@@ -9,7 +9,6 @@ export default function (_config, opts = {}) {
 				validateBulkLoadParameters: false
 			},
 			logging: false,
-			operatorsAliases: false,
 			pool: {
 				maxUses: 6
 			}
@@ -37,7 +36,7 @@ export default function (_config, opts = {}) {
 		models[name].associate && models[name].associate(models);
 	}
 
-	sequelize.initialized = sequelize.sync(opts);
+	sequelize.initialized = Promise.resolve(); // sequelize.sync(opts);
 	sequelize.Sequelize = Sequelize;
 
 	return sequelize;
