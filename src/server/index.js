@@ -114,7 +114,7 @@ export default class Server {
 	}
 
 	async markActiveServers() {
-		const { Op, models } = this.sequelize;
+		const { models } = this.sequelize;
 		const { Server } = models;
 
 		try {
@@ -142,7 +142,7 @@ export default class Server {
 	}
 
 	async markInactiveServers() {
-		const { Op, models } = this.sequelize;
+		const { models } = this.sequelize;
 		const { Server } = models;
 
 		try {
