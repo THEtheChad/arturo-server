@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import Sequelize from 'sequelize';
+import { Sequelize, DataTypes } from 'sequelize';
 
 export default function (_config, opts = {}) {
 	const config = Object.assign(
@@ -24,10 +24,13 @@ export default function (_config, opts = {}) {
 		config
 	);
 
+	sequelize.models = sequelize.models || {};
 	const model_dir = path.join(__dirname, 'models');
-	fs.readdirSync(model_dir).forEach((filename) =>
-		sequelize.import(path.join(model_dir, filename))
-	);
+	fs.readdirSync(model_dir).forEach((filename) => {
+		const factory = require(path.join(model_dir, filename));
+
+		factory(sequelize, DataTypes);
+	});
 
 	const { models } = sequelize;
 	for (let name in models) {
